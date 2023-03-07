@@ -1,0 +1,44 @@
+<!DOCTYPE html>  
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Player's Paradise Game Search</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"> <!--bulma public cdn-->
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <div class="columns">
+        <div class="column is-one-quarter is-3"> <!--column on left-->
+            <h1class="is-centered">Previous Searches</h1>
+            <div class="box">
+                <!--display previous searches here-->
+            </div>
+        </div>
+
+        <div class="game-art-container">
+            <img class="game-art" src="" alt=""> <!--placeholder section for box art-->
+        </div>
+
+    <main class="search-container column">
+        <h2>Player's Paradise</h2>  
+            <div class="control"> <!--search bar-->
+                <input class="input search-bar" type="text" placeholder="Game">
+            </div>
+            <button class="button is-primary" onclick="searchGame()">Search</button>
+    </main>
+
+    
+    <aside class="column"> <!--this will make aside element into a column-->
+        <!--stores previous searches-->
+    </aside>
+    
+    <div >
+        <!--trailer or gameplay video -->
+    </div>
+   
+	<script src="assets/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+.search-bar {
+    margin: 9px;
+    width: 350px;
+    box-shadow: 5px 5px 10px rgb(48, 164, 241);
+
+}
+
+.button {
+    margin: 7px;
+
+}
+
+.box {
+    height: 150%;
+    padding: 40%;
+    box-shadow: 5px 5px 10px rgb(31, 224, 160);
+    margin: 15px
+
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin:10px;
+}
+
+.columns {
+    text-align: center;;
+    margin-top: 21px;
+}
+
+.game-art-container {
+    height: 400px;
+    margin: 0 auto;
+    box-shadow: 5px 5px 10px rgb(131, 9, 179)
+}
+
+.game-art {
+    border: 4px rgb(169, 65, 253);
+
+}
