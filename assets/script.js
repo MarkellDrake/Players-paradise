@@ -1,28 +1,36 @@
 var RAWGAPIKey = '227c60318fed4aafabdb435450204c35'
-
-var userGameUrl = 'https://api.rawg.io/api/games?search='+ searchValue +'&search_exact=true&metacritic=1,100&ordering=-released&key=227c60318fed4aafabdb435450204c35'
+var userGameUrl = 'https://api.rawg.io/api/games?search='+ output +'&search_exact=true&metacritic=1,100&ordering=-released&key=227c60318fed4aafabdb435450204c35'
 var searchbuttonEL = document.querySelector('#is-primary');
 var searchBarEl = document.querySelector('#search-bar');
-
 var yearEl = document.querySelector('#year');
 var metacriticScoreEl = document.querySelector('#metacriticScore');
 var esrbRatingEl = document.querySelector('#esrbRating');
 var consolesEl = document.querySelector('#consoles');
 var searchValue = searchBarEl.value
 
+var insertCharAfterWords = function(inputString, char) {
+    
+    // Split the input string into an array of words
+    var words = inputString.split(' ');
+  
+    // Join the words with the desired character in between them
+    var outputString = words.join(char);
+
+    
+    return outputString;
+   
+  }
+  
+  var output = insertCharAfterWords(searchValue, "%20");
+
+
 
 function searchGame(event){
  //the game the user searches 
 
-testFunction();
-
+ testFunction();
 
 }
-
-
-searchbuttonEL.addEventListener('click',searchGame);
-
-
 // KEEP THIS LINK FOR GATHERING DESCRIPTION
 //https://api.rawg.io/api/games/23165?&key=227c60318fed4aafabdb435450204c35
 //This will be used as a second fetch request to gather the data by game Id
@@ -32,7 +40,7 @@ searchbuttonEL.addEventListener('click',searchGame);
 
 
 var testFunction = function () {
-fetch(testURL)
+fetch(userGameUrl)
     .then(function(response) {
         return response.json()
     })
@@ -60,7 +68,7 @@ fetch(testURL)
 }
 
 
-'https://api.rawg.io/api/games?search='+ 'mario%20kart' + '&search_exact=true&metacritic=1,100&ordering=-released&key=227c60318fed4aafabdb435450204c35'
+//'https://api.rawg.io/api/games?search='+ 'mario%20kart' + '&search_exact=true&metacritic=1,100&ordering=-released&key=227c60318fed4aafabdb435450204c35'
 
 //function to the YouTube API
 var youtubeTest = function () {
