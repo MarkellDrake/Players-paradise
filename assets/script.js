@@ -40,33 +40,38 @@ function searchGame(event){
 
 
 var testFunction = function () {
-fetch(userGameUrl)
-    .then(function(response) {
-        return response.json()
-    })
-    .then(function(data) {
-        var metacriticScore = data.results[0].metacritic
-        // refrence to the year that the game was released 
-        var year = data.results[0].released.slice(0,4)
-        var ESRBRating = data.results[0].esrb_rating.name
-        var consoles = data.results[0].platforms[0].platform.name
-        var gameId = data.results[0].id
-        console.log(gameId)
-        console.log(metacriticScore)
-        console.log(year)
-        console.log(ESRBRating)
-        console.log(consoles)
-
-        yearEl.textContent = year;
-        metacriticScoreEl.textContent = metacriticScore;
-        esrbRatingEl.textContent = ESRBRating;
-        consolesEl.textContent = consoles;
-
-
-
-    }) 
-}
-
+    fetch(userGameUrl)
+        .then(function(response) {
+            return response.json()
+        })
+        .then(function(data) {
+            var gameId = data.results[0].id
+            console.log(gameId)
+            var gameIdURL = 'https://api.rawg.io/api/games/' +  gameId + '?&key=227c60318fed4aafabdb435450204c35'
+            fetch(gameIdURL)
+            .then(function(response) {
+                return response.json()
+            })
+            .then(function(data){
+                var metacriticScore = data.metacritic
+                // refrence to the year that the game was released 
+                var year = data.released.slice(0,4)
+                var ESRBRating = data.esrb_rating.name
+                var consoles = data.platforms[0].platform.name
+                console.log(metacriticScore)
+                console.log(year)
+                console.log(ESRBRating)
+                console.log(consoles)
+        
+                yearEl.textContent = year;
+                metacriticScoreEl.textContent = metacriticScore;
+                esrbRatingEl.textContent = ESRBRating;
+                consolesEl.textContent = consoles;
+            })
+        }) 
+    }
+    
+    
 
 //'https://api.rawg.io/api/games?search='+ 'mario%20kart' + '&search_exact=true&metacritic=1,100&ordering=-released&key=227c60318fed4aafabdb435450204c35'
 
