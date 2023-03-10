@@ -11,10 +11,13 @@
   </head>
   <body>
     <div class="columns">
-        <div class="column is-one-quarter is-3"> <!--column on left-->
-            <h1class="is-centered">Previous Searches</h1>
+        <div class="column is-one-quarter is-3" > <!--column on left-->
+            <h1 class="is-centered">Previous Searches</h1>
             <div class="box">
                 <!--display previous searches here-->
+                <ul id="previous-searches">
+                    
+                </ul>
             </div>
         </div>
 
@@ -36,13 +39,19 @@
                 <p>Consoles: <span id="consoles"></span></p>
         
             </div>
+            <div>
+                <button class="button youtube-button is-link" id="trailer-button">Trailer</button>
+                <button class="button youtube-button is-link" id="review-button">Review</button>
+                <button class="button youtube-button is-link" id="gameplay-button">Gameplay</button>
+            </div>
+
+        <div id="videoContainer">
+        <!--trailer or gameplay video -->
+        </div>
     </main>
  
     
 
-    <div id="videoContainer">
-        <!--trailer or gameplay video -->
-    </div>
    
 	<script src="assets/script.js"></script>
   </body>

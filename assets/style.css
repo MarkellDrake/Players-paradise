@@ -10,9 +10,12 @@
 
 }
 
+.trailer-button {
+    width: 100px;
+}
+
 .box {
     height: 150%;
-    padding: 40%;
     box-shadow: 5px 5px 10px rgb(31, 224, 160);
     margin: 15px
 
