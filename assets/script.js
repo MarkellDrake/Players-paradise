@@ -1,45 +1,47 @@
 var RAWGAPIKey = '227c60318fed4aafabdb435450204c35'
-var userGameUrl = 'https://api.rawg.io/api/games?search='+ output +'&search_exact=true&metacritic=1,100&ordering=-released&key=227c60318fed4aafabdb435450204c35'
 var searchbuttonEL = document.querySelector('#is-primary');
 var searchBarEl = document.querySelector('#search-bar');
 var yearEl = document.querySelector('#year');
 var metacriticScoreEl = document.querySelector('#metacriticScore');
 var esrbRatingEl = document.querySelector('#esrbRating');
+var gameImageEl = document.querySelector('.game-art')
 var consolesEl = document.querySelector('#consoles');
-var searchValue = searchBarEl.value
+var trailerButtonEl = document.querySelector('#trailer-button')
+var reviewButtonEl = document.querySelector('#review-button')
+var gameplayButtonEl = document.querySelector('#gameplay-button')
+var previousSearchesEl = document.querySelector('#previous-searches')
+
+var hideButtons = function () {
+    trailerButtonEl.style.display = 'none'
+    reviewButtonEl.style.display = 'none'
+    gameplayButtonEl.style.display = 'none'
+}
+
+var showButtons = function () {
+    trailerButtonEl.style.display = 'inline'
+    reviewButtonEl.style.display = 'inline'
+    gameplayButtonEl.style.display = 'inline'
+}
+
+hideButtons()
+
 
 var insertCharAfterWords = function(inputString, char) {
-    
     // Split the input string into an array of words
     var words = inputString.split(' ');
-  
     // Join the words with the desired character in between them
     var outputString = words.join(char);
-
-    
     return outputString;
-   
   }
-  
-  var output = insertCharAfterWords(searchValue, "%20");
 
 
-
-function searchGame(event){
- //the game the user searches 
-
- testFunction();
-
-}
-// KEEP THIS LINK FOR GATHERING DESCRIPTION
-//https://api.rawg.io/api/games/23165?&key=227c60318fed4aafabdb435450204c35
-//This will be used as a second fetch request to gather the data by game Id
-//The first fetch request will be used only to grab the game ID
-//The game ID will be added to the second URL
-//The second fetch request will be used to gather all other data for the game
+ 
 
 
 var testFunction = function () {
+    var searchValue = searchBarEl.value
+    var output = insertCharAfterWords(searchValue, "%20");
+    var userGameUrl = 'https://api.rawg.io/api/games?search='+ output +'&search_exact=true&metacritic=1,100&ordering=-released&key=227c60318fed4aafabdb435450204c35'
     fetch(userGameUrl)
         .then(function(response) {
             return response.json()
@@ -54,18 +56,19 @@ var testFunction = function () {
             })
             .then(function(data){
                 var metacriticScore = data.metacritic
-                // refrence to the year that the game was released 
+                //refrence to the year that the game was released 
                 var year = data.released.slice(0,4)
-                var ESRBRating = data.esrb_rating.name
+                //var ESRBRating = data.esrb_rating.name
                 var consoles = data.platforms[0].platform.name
+                var gameImage = data.background_image
                 console.log(metacriticScore)
                 console.log(year)
-                console.log(ESRBRating)
+                //console.log(ESRBRating)
                 console.log(consoles)
-        
+                gameImageEl.src = gameImage
                 yearEl.textContent = year;
                 metacriticScoreEl.textContent = metacriticScore;
-                esrbRatingEl.textContent = ESRBRating;
+                //esrbRatingEl.textContent = ESRBRating;
                 consolesEl.textContent = consoles;
             })
         }) 
@@ -77,9 +80,11 @@ var testFunction = function () {
 
 //function to the YouTube API
 var youtubeTest = function () {
+    var searchValue = searchBarEl.value
+    var output = insertCharAfterWords(searchValue, "%20");
     //Will need to add user input into the link
     //Link searches key words provided by the user
-    var searchUrl = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBZdZHH3hqAOG4qxy3IiD3zQgHcun_aIG4&part=snippet&type=video&maxResults=1&q=mario%20kart%20review';
+    var searchUrl = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBZdZHH3hqAOG4qxy3IiD3zQgHcun_aIG4&part=snippet&type=video&maxResults=1&q=' + output + '%20' + videoType;
 //First fetch is used to grab the videoID data from the API for further use.
     fetch(searchUrl)
     .then(function(response) {
@@ -102,8 +107,38 @@ var youtubeTest = function () {
         })
     })
 }
+function searchGame(event){
+    //the game the user searches 
+    showButtons();
+    testFunction();
+    youtubeTest();
+   }
 
-searchbuttonEL.addEventListener("click",searchGame);
+
+   searchbuttonEL.addEventListener("click", searchGame);
+   searchbuttonEL.addEventListener("click", function() {
+     var searchValue = searchBarEl.value;
+   
+     // Store search term in local storage
+     var searches = JSON.parse(localStorage.getItem("searches")) || [];
+     searches.push(searchValue);
+     localStorage.setItem("searches", JSON.stringify(searches));
+   
+     // Display previous searches
+     displayPreviousSearches();
+   });
+   
+   var displayPreviousSearches = function() {
+     previousSearchesEl.innerHTML = '';
+     var searches = JSON.parse(localStorage.getItem('searches')) || [];
+     searches.forEach(function(searchValue) {
+       var li = document.createElement('li');
+       li.textContent = searchValue;
+       previousSearchesEl.appendChild(li);
+     });
+   };
+
+   displayPreviousSearches();
 
 // 'https://api.rawg.io/api/games?search='+ 'mario%20kart' + '&search_exact=true&metacritic=1,100&ordering=-released&key=227c60318fed4aafabdb435450204c35'
 
