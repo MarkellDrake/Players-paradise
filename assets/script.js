@@ -1,9 +1,8 @@
-var RAWGAPIKey = '227c60318fed4aafabdb435450204c35'
 var searchbuttonEL = document.querySelector('#is-primary');
 var searchBarEl = document.querySelector('#search-bar');
 var yearEl = document.querySelector('#year');
 var metacriticScoreEl = document.querySelector('#metacriticScore');
-var esrbRatingEl = document.querySelector('#esrbRating');
+var gameDescriptionEl = document.querySelector('#plot')
 var gameImageEl = document.querySelector('.game-art')
 var consolesEl = document.querySelector('#consoles');
 var trailerButtonEl = document.querySelector('#trailer-button')
@@ -11,35 +10,42 @@ var reviewButtonEl = document.querySelector('#review-button')
 var gameplayButtonEl = document.querySelector('#gameplay-button')
 var previousSearchesEl = document.querySelector('#previous-searches')
 var videoContainerEl = document.querySelector('#videoContainer')
+var gameDataEl = document.querySelector('#gameData')
 
-//Function to update the youtube video URL with the correct search perameters when each button is clicked
+//Functions to update the youtube video URL with the correct search perameters when each button is clicked
+videoType = 'trailer'
 videoContainerEl.style.display = 'none'
-videoType = ''
 gameplayButtonEl.addEventListener('click', function() {
     videoType = 'gameplay';
     videoContainerEl.style.display = 'block';
+    youtubeTest()
   });
 
   trailerButtonEl.addEventListener('click', function() {
     videoType = 'trailer';
     videoContainerEl.style.display = 'block';
+    youtubeTest()
   });
 
   reviewButtonEl.addEventListener('click', function() {
     videoType = 'review';
     videoContainerEl.style.display = 'block';
-  });
+    youtubeTest()
+})
+
 //Hides the video buttons until needed
 var hideButtons = function () {
     trailerButtonEl.style.display = 'none'
     reviewButtonEl.style.display = 'none'
     gameplayButtonEl.style.display = 'none'
+    gameDataEl.style.display = 'none'
 }
 //shows the video buttons when needed
 var showButtons = function () {
     trailerButtonEl.style.display = 'inline'
     reviewButtonEl.style.display = 'inline'
     gameplayButtonEl.style.display = 'inline'
+    gameDataEl.style.display = 'block'
 }
 
 
@@ -65,6 +71,10 @@ var testFunction = function () {
             return response.json()
         })
         .then(function(data) {
+            var gameFalse = data.count
+            if (gameFalse === 0) {
+                return
+            }
             var gameId = data.results[0].id
             console.log(gameId)
             var gameIdURL = 'https://api.rawg.io/api/games/' +  gameId + '?&key=227c60318fed4aafabdb435450204c35'
@@ -77,22 +87,21 @@ var testFunction = function () {
                 var metacriticScore = data.metacritic
                 //refrence to the year that the game was released 
                 var year = data.released.slice(0,4)
-                //var ESRBRating = data.esrb_rating.name
                 var consoles = data.platforms[0].platform.name
                 var gameImage = data.background_image
+                var gameDescription = data.description
                 console.log(metacriticScore)
                 console.log(year)
-                //console.log(ESRBRating)
                 console.log(consoles)
+                console.log(gameDescription)
                 gameImageEl.src = gameImage
                 yearEl.textContent = year;
                 metacriticScoreEl.textContent = metacriticScore;
-                //esrbRatingEl.textContent = ESRBRating;
                 consolesEl.textContent = consoles;
+                gameDescriptionEl.innerHTML = gameDescription;
             })
         }) 
     }
-    
     
 
 
@@ -102,7 +111,7 @@ var youtubeTest = function () {
     var output = insertCharAfterWords(searchValue, "%20");
     //Will need to add user input into the link
     //Link searches key words provided by the user
-    var searchUrl = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBZdZHH3hqAOG4qxy3IiD3zQgHcun_aIG4&part=snippet&type=video&maxResults=1&q=' + output + '%20' + videoType;
+    var searchUrl = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBWePALfEMwF8NcqtejVf2QgMyByPb6k-g&part=snippet&type=video&maxResults=1&q=' + output + '%20' + videoType;
 //First fetch is used to grab the videoID data from the API for further use.
     fetch(searchUrl)
     .then(function(response) {
@@ -111,7 +120,7 @@ var youtubeTest = function () {
     .then(function(data) {
         var videoId = data.items[0].id.videoId;
         //Creating a new URL using the videoID data that can be used for embedding the video
-        var videosUrl = 'https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBZdZHH3hqAOG4qxy3IiD3zQgHcun_aIG4&part=player,snippet&id=' + videoId;
+        var videosUrl = 'https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBWePALfEMwF8NcqtejVf2QgMyByPb6k-g&part=player,snippet&id=' + videoId;
         fetch(videosUrl)
         .then(function(response){
             return response.json()
@@ -120,7 +129,7 @@ var youtubeTest = function () {
             //Acessing the HTML embed link for the chosen video
             var videoUrl = data.items[0].player.embedHtml;
             //Uses the replace method to create a youtube video embed code to be inserted into the HTML.
-            var videoEmbedCode = videoUrl.replace(/.*\/embed\/(.*)".*/, '<iframe width="560" height="315" src="//www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>');
+            var videoEmbedCode = videoUrl.replace(/.*\/embed\/(.*)".*/, '<iframe width="500" height="290" src="//www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>');
             document.querySelector('#videoContainer').innerHTML = videoEmbedCode;
         })
     })
@@ -129,6 +138,7 @@ var youtubeTest = function () {
 //Creates a function that incorporates all of our API calls
 function searchGame(event){
     //the game the user searches 
+   
     showButtons();
     testFunction();
     youtubeTest();
@@ -136,6 +146,7 @@ function searchGame(event){
 
 
    searchbuttonEL.addEventListener("click", searchGame);
+
    searchbuttonEL.addEventListener("click", function() {
      var searchValue = searchBarEl.value;
    
@@ -157,8 +168,8 @@ function searchGame(event){
     searches.forEach(function(searchValue) {
       var li = document.createElement('li');
       var a = document.createElement('a');
-      a.href = '#';
       a.textContent = searchValue;
+      a.href = '#'
       li.appendChild(a);
       previousSearchesEl.appendChild(li);
     });
