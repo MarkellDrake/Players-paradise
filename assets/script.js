@@ -10,22 +10,40 @@ var trailerButtonEl = document.querySelector('#trailer-button')
 var reviewButtonEl = document.querySelector('#review-button')
 var gameplayButtonEl = document.querySelector('#gameplay-button')
 var previousSearchesEl = document.querySelector('#previous-searches')
+var videoContainerEl = document.querySelector('#videoContainer')
 
+//Function to update the youtube video URL with the correct search perameters when each button is clicked
+videoContainerEl.style.display = 'none'
+videoType = ''
+gameplayButtonEl.addEventListener('click', function() {
+    videoType = 'gameplay';
+    videoContainerEl.style.display = 'block';
+  });
+
+  trailerButtonEl.addEventListener('click', function() {
+    videoType = 'trailer';
+    videoContainerEl.style.display = 'block';
+  });
+
+  reviewButtonEl.addEventListener('click', function() {
+    videoType = 'review';
+    videoContainerEl.style.display = 'block';
+  });
+//Hides the video buttons until needed
 var hideButtons = function () {
     trailerButtonEl.style.display = 'none'
     reviewButtonEl.style.display = 'none'
     gameplayButtonEl.style.display = 'none'
 }
-
+//shows the video buttons when needed
 var showButtons = function () {
     trailerButtonEl.style.display = 'inline'
     reviewButtonEl.style.display = 'inline'
     gameplayButtonEl.style.display = 'inline'
 }
 
-hideButtons()
 
-
+// function used to translate user input into a readable form within the URL search
 var insertCharAfterWords = function(inputString, char) {
     // Split the input string into an array of words
     var words = inputString.split(' ');
@@ -34,14 +52,14 @@ var insertCharAfterWords = function(inputString, char) {
     return outputString;
   }
 
-
- 
-
-
+//RAWG API call function that retrieves all data for displaying about our game
 var testFunction = function () {
     var searchValue = searchBarEl.value
+    //Adds correct URL code for searching the API
     var output = insertCharAfterWords(searchValue, "%20");
+    //Adds user search to URL
     var userGameUrl = 'https://api.rawg.io/api/games?search='+ output +'&search_exact=true&metacritic=1,100&ordering=-released&key=227c60318fed4aafabdb435450204c35'
+    //First fetch request gets the game ID, which can be used to gather even more data
     fetch(userGameUrl)
         .then(function(response) {
             return response.json()
@@ -50,6 +68,7 @@ var testFunction = function () {
             var gameId = data.results[0].id
             console.log(gameId)
             var gameIdURL = 'https://api.rawg.io/api/games/' +  gameId + '?&key=227c60318fed4aafabdb435450204c35'
+            //Second fetch request used the gameId as a search term to return all the data we want
             fetch(gameIdURL)
             .then(function(response) {
                 return response.json()
@@ -76,9 +95,8 @@ var testFunction = function () {
     
     
 
-//'https://api.rawg.io/api/games?search='+ 'mario%20kart' + '&search_exact=true&metacritic=1,100&ordering=-released&key=227c60318fed4aafabdb435450204c35'
 
-//function to the YouTube API
+//function call to the YouTube API
 var youtubeTest = function () {
     var searchValue = searchBarEl.value
     var output = insertCharAfterWords(searchValue, "%20");
@@ -107,6 +125,8 @@ var youtubeTest = function () {
         })
     })
 }
+
+//Creates a function that incorporates all of our API calls
 function searchGame(event){
     //the game the user searches 
     showButtons();
@@ -128,17 +148,21 @@ function searchGame(event){
      displayPreviousSearches();
    });
    
-   var displayPreviousSearches = function() {
-     previousSearchesEl.innerHTML = '';
-     var searches = JSON.parse(localStorage.getItem('searches')) || [];
-     searches.forEach(function(searchValue) {
-       var li = document.createElement('li');
-       li.textContent = searchValue;
-       previousSearchesEl.appendChild(li);
-     });
-   };
 
+
+  //Function to display our previous to the page that are saved in local storage
+  var displayPreviousSearches = function() {
+    previousSearchesEl.innerHTML = '';
+    var searches = JSON.parse(localStorage.getItem('searches')) || [];
+    searches.forEach(function(searchValue) {
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#';
+      a.textContent = searchValue;
+      li.appendChild(a);
+      previousSearchesEl.appendChild(li);
+    });
+  };
+    hideButtons()
    displayPreviousSearches();
-
-// 'https://api.rawg.io/api/games?search='+ 'mario%20kart' + '&search_exact=true&metacritic=1,100&ordering=-released&key=227c60318fed4aafabdb435450204c35'
-
+  // Call the function after the previous searches are displayed
