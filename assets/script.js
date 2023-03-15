@@ -71,10 +71,6 @@ var testFunction = function () {
             return response.json()
         })
         .then(function(data) {
-            var gameFalse = data.count
-            if (gameFalse === 0) {
-                return
-            }
             var gameId = data.results[0].id
             console.log(gameId)
             var gameIdURL = 'https://api.rawg.io/api/games/' +  gameId + '?&key=227c60318fed4aafabdb435450204c35'
@@ -100,10 +96,26 @@ var testFunction = function () {
                 consolesEl.textContent = consoles;
                 gameDescriptionEl.innerHTML = gameDescription;
             })
+            .catch(function(error) {
+                console.error(error)
+                // Display an error message to the user if no game is retrieved
+                yearEl.textContent = 'N/A';
+                metacriticScoreEl.textContent = 'N/A';
+                consolesEl.textContent = 'N/A';
+                gameDescriptionEl.innerHTML = 'An error occurred while fetching game data. Please try again later.'
+                videoContainerEl.style.display = 'none'
+            })
+        })
+        .catch(function(error) {
+            console.error(error)
+             // Display an error message to the user if no game is retrieved and hides the video container
+            yearEl.textContent = 'N/A';
+            metacriticScoreEl.textContent = 'N/A';
+            consolesEl.textContent = 'N/A';
+            gameDescriptionEl.innerHTML = 'No games were found that match your search. Please try again with a different search term.'
+            videoContainerEl.style.display = 'none'
         }) 
     }
-    
-
 
 //function call to the YouTube API
 var youtubeTest = function () {
@@ -141,7 +153,7 @@ function searchGame(event){
    
     showButtons();
     testFunction();
-    youtubeTest();
+    youtubeTest()
    }
 
 
