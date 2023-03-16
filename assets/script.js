@@ -123,7 +123,9 @@ var youtubeTest = function () {
     var output = insertCharAfterWords(searchValue, "%20");
     //Will need to add user input into the link
     //Link searches key words provided by the user
-    var searchUrl = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBWePALfEMwF8NcqtejVf2QgMyByPb6k-g&part=snippet&type=video&maxResults=1&q=' + output + '%20' + videoType;
+
+    var searchUrl = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyCLTB5AGoPz59wHvXdakaTp00qeCTJQugs&part=snippet&type=video&maxResults=1&q=' + output + '%20' + videoType;
+
 //First fetch is used to grab the videoID data from the API for further use.
     fetch(searchUrl)
     .then(function(response) {
@@ -132,7 +134,9 @@ var youtubeTest = function () {
     .then(function(data) {
         var videoId = data.items[0].id.videoId;
         //Creating a new URL using the videoID data that can be used for embedding the video
-        var videosUrl = 'https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBWePALfEMwF8NcqtejVf2QgMyByPb6k-g&part=player,snippet&id=' + videoId;
+
+        var videosUrl = 'https://www.googleapis.com/youtube/v3/videos?key=AIzaSyCLTB5AGoPz59wHvXdakaTp00qeCTJQugs&part=player,snippet&id=' + videoId;
+
         fetch(videosUrl)
         .then(function(response){
             return response.json()
@@ -141,7 +145,9 @@ var youtubeTest = function () {
             //Acessing the HTML embed link for the chosen video
             var videoUrl = data.items[0].player.embedHtml;
             //Uses the replace method to create a youtube video embed code to be inserted into the HTML.
-            var videoEmbedCode = videoUrl.replace(/.*\/embed\/(.*)".*/, '<iframe width="500" height="290" src="//www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>');
+
+            var videoEmbedCode = videoUrl.replace(/.*\/embed\/(.*)".*/, '<iframe width="500" height="290" src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>');
+
             document.querySelector('#videoContainer').innerHTML = videoEmbedCode;
         })
     })
@@ -174,16 +180,26 @@ function searchGame(event){
 
 
   //Function to display our previous to the page that are saved in local storage
+
+  //Will limit the amount of previous searches to a set amount
   var displayPreviousSearches = function() {
     previousSearchesEl.innerHTML = '';
     var searches = JSON.parse(localStorage.getItem('searches')) || [];
+    var count = 0;
     searches.forEach(function(searchValue) {
+      if (count >= 15) {
+        return; // exit the loop
+      }
+
       var li = document.createElement('li');
       var a = document.createElement('a');
       a.textContent = searchValue;
       a.href = '#'
       li.appendChild(a);
       previousSearchesEl.appendChild(li);
+
+      count++;
+
     });
   };
     hideButtons()

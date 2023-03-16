@@ -1,13 +1,42 @@
 .search-bar {
     margin: 9px;
     width: 350px;
-    box-shadow: 5px 5px 10px rgb(48, 164, 241);
-
+    box-shadow: 5px 5px 10px rgb(118, 50, 245);
+    margin-right: auto;
 }
 
 .button {
     margin: 7px;
 
+}
+
+h1, 
+h2,
+h3 {
+    font-family: "retro font";
+    font-size: larger;
+    color:rgb(241, 172, 238)
+}
+
+p {
+    font-family: Arial, Helvetica, sans-serif;
+    color:rgb(241, 172, 238);
+}
+
+html{
+    background-image: url(./images/arcade.jpg);
+    background-size: cover;
+    
+}
+
+@font-face {
+    font-family: "retro font";
+    src: url(./font/Super\ Retro\ M54.ttf);
+}
+
+
+.img-container {
+    height: 100vh;
 }
 
 .trailer-button {
@@ -16,31 +45,81 @@
 
 .box {
     height: 150%;
-    box-shadow: 5px 5px 10px rgb(31, 224, 160);
+    box-shadow: 5px 5px 10px rgb(191, 113, 243);
     margin: 15px
 
 }
 
 .search-container {
-    display: flex;
+    display: flex;  /*moving search container to center*/
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin:10px;
+    margin-top: 20px;
+}
+
+.search-container h2 {
+    margin-right:10px;  
+    margin-top: 0;
+}
+
+#search-bar {
+    margin: 9px; 
+    width: 350px;
+    box-shadow: 5px 5px 10px rgb(191, 113, 243);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .columns {
-    text-align: center;;
-    margin-top: 21px;
+    text-align: center;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
 }
 
+.columns .column:first-child {
+    margin-right: 20px;
+}
+
+
 .game-art-container {
-    height: 400px;
-    margin: 0 auto;
-    box-shadow: 5px 5px 10px rgb(131, 9, 179)
+    height: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 5px 10px rgb(191, 113, 243);
+    background-color: rgb(2, 1, 2);
 }
 
 .game-art {
-    border: 4px rgb(169, 65, 253);
+    border: 4px rgb(13, 1, 20);
+    max-width: 85%; 
+    max-height: 85%;
+}
 
+
+#gameData {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#gameData p {
+    margin-bottom: 5px;
+}
+
+#videoContainer {
+    margin-top: 20px;
+    margin-bottom: 50px;
+    text-align: center;
+    box-shadow: 5px 5px 10px rgb(243, 130, 230);
 }
