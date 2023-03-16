@@ -9,49 +9,60 @@
     <link rel="stylesheet" href="assets/style.css">
    <!-- <link rel="icon" href="./favicon.ico" type="image/x-icon"> -->
   </head>
+  <main>
   <body>
-    <div class="columns">
-        <div class="column is-one-quarter is-3" > <!--column on left-->
-            <h1 class="is-centered">Previous Searches</h1>
-            <div class="box">
-                <!--display previous searches here-->
-                <ul id="previous-searches">
-                    
-                </ul>
-            </div>
-        </div>
+    <div class="img-container">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-one-quarter is-3" > <!--column on left-->
+                    <h1 class="is-centered">Previous Searches</h1>
+                        <div class="box">
+                        <!--display previous searches here-->
+                        <ul id="previous-searches"></ul>
+                        </div>
+                </div>
 
-        <div class="game-art-container">
+        <div class="column is-two-thirds is-1"></div>
+            <div class="search-container">
+                <h2>Player's Paradise</h2>
+                <div class="field has-addons">
+                    <div class="control">
+                        <input class="input search-bar" id="search-bar" type="text" placeholder="Game">
+                    </div>
+                <div class="control">
+                    <button class="button is-primary" id="is-primary" onclick="searchGame()">Search</button>
+                </div>
+            </div>
+            
+
+        <div class="game-art-container">   
             <img class="game-art" src="" alt=""> <!--placeholder section for box art-->
         </div>
 
-    <main class="search-container column">
-        <h2>Player's Paradise</h2>  
-            <div class="control"> <!--search bar-->
-                <input class=" input search-bar" id="search-bar" type="text" placeholder="Game">
-            </div>
-            <button class=" button is-primary" id ="is-primary" onclick="searchGame()">Search</button>
             <div id="gameData">
                 <h3><span id="gameTitle"></span></h3>
                 <p>Release Year: <span id="year"></span></p>
                 <p>Metacritic Score: <span id="metacriticScore"></span></p>
-                <p>ESRB Rating: <span id="esrbRating"></span></p>
                 <p>Consoles: <span id="consoles"></span></p>
-        
+                <span id="plot"></span>
+         
             </div>
+
             <div>
                 <button class="button youtube-button is-link" id="trailer-button">Trailer</button>
                 <button class="button youtube-button is-link" id="review-button">Review</button>
                 <button class="button youtube-button is-link" id="gameplay-button">Gameplay</button>
             </div>
-
-        <div id="videoContainer">
-        <!--trailer or gameplay video -->
+            <div id="videoContainer">
+                <!--trailer or gameplay video -->
+            
+            </div>
         </div>
-    </main>
- 
-    
+    </div>
+</main>
+</div>
 
+    
    
 	<script src="assets/script.js"></script>
   </body>
